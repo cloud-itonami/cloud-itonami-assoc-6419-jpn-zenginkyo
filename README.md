@@ -22,13 +22,13 @@ actuation actor, same class as `cloud-itonami-gtin-catalog` /
 `cloud-itonami-lei-*` / `cloud-itonami-municipality-jpn-tokyo`. It
 proposes or executes nothing on the association's behalf.
 
-Coverage is reported honestly (see `association.facts/coverage`): an
-association not in `catalog` has **no spec-basis**, full stop — never
+Coverage is reported honestly by the fail-closed exported Kotoba ABI: an
+association not explicitly admitted has **no spec-basis**, full stop — never
 fabricate one.
 
 ## Data
 
-- `src/association/facts.cljc` — the catalog, source of truth.
+- `src/association_facts.kotoba` — the sole production catalog authority.
 - `schema/association-rule.edn` — DataScript schema.
 - `data/datascript-tx.edn` — derived DataScript tx-data (query this
   alongside other `cloud-itonami`/`etzhayyim` compliance-fact sources via
@@ -38,6 +38,12 @@ Every entry cites an official [zenginkyo.or.jp](https://www.zenginkyo.or.jp/)
 page — each URL was independently fetched and its title/revision-history
 verified against the live document (2026-07-14), never guessed from
 memory.
+
+The catalog compiles through `kotoba-lang/compiler` to the reference evaluator,
+restricted JavaScript, and typed WebAssembly. Clojure/JVM and Node are test and
+compiler hosts only; neither is production authority. Compatibility is checked
+by observable values, typed ABI, empty effects, bounds, and fail-closed
+rejections—not compiler-output byte identity.
 
 ## License
 

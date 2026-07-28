@@ -32,12 +32,41 @@ fabricate one.
 - `schema/association-rule.edn` — DataScript schema.
 - `data/datascript-tx.edn` — derived DataScript tx-data (query this
   alongside other `cloud-itonami`/`etzhayyim` compliance-fact sources via
-  `com-junkawasaki/root`'s `scripts/compliance-fact-query.cljs`).
+  `com-junkawasaki/root`'s `scripts/compliance-fact-query.cljs`). Derived
+  means derived: `datascript-tx-matches-kotoba-authority` fails if this
+  file drifts from the compiled catalog, so it is not a second place to
+  add an entry.
 
 Every entry cites an official [zenginkyo.or.jp](https://www.zenginkyo.or.jp/)
 page — each URL was independently fetched and its title/revision-history
-verified against the live document (2026-07-14), never guessed from
-memory.
+verified against the live document (entries 1–2 on 2026-07-14, entries
+3–6 on 2026-07-29), never guessed from memory.
+
+## `parameter-disposition` — who ends up holding the number
+
+Beyond citation metadata, each entry records **who the rule speaks to**
+(`:addressee`) and **what it does with any numeric parameter it raises**
+(`:parameter-disposition`, one of `:sets-numeric-default`,
+`:delegates-to-adopter`, `:conditions-liability-on-adopter-choice`,
+`:no-parameter`). Both classify the published document, not its text —
+this repo still stores no rule text.
+
+They exist because "the association addressed topic X" and "the
+association decided the number for topic X" are different facts, and a
+catalog that stores only the citation cannot tell them apart. Counts are
+scanned from the same tables the fields come from, so a summary cannot go
+stale against the catalog it summarizes:
+
+```clojure
+(sets-numeric-default-count "zenginkyo" "transfer-limit")               ;=> 0
+(disposition-count "zenginkyo" "transfer-limit" "delegates-to-adopter") ;=> 2
+```
+
+Read that as an absence in the published record, not as a
+recommendation. The catalog reports what zenginkyo has published and
+takes no position on what it ought to publish. If a future document does
+fix a number, adding it moves the count off zero — and the test asserting
+zero is then the thing that has to be updated to say so.
 
 The catalog compiles through `kotoba-lang/compiler` to the reference evaluator,
 restricted JavaScript, and typed WebAssembly. Clojure/JVM and Node are test and

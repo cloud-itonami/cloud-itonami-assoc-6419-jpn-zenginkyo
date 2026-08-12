@@ -2,10 +2,10 @@
   (:export [main association-covered? entry-count entry-field topic-count topic
             by-topic-count by-topic-id disposition-count sets-numeric-default-count]))
 
-(defn association-covered? [a :string] :i64 (string=? a "zenginkyo"))
+(defn association-covered? [a :string] :bool (string=? a "zenginkyo"))
 (defn entry-count [a :string] :i64 (if (association-covered? a) 6 0))
-(defn valid-entry? [a :string i :i64] :i64
-  (if (association-covered? a) (if (< i 6) (if (< i 0) 0 1) 0) 0))
+(defn valid-entry? [a :string i :i64] :bool
+  (if (association-covered? a) (if (< i 6) (if (< i 0) false true) false) false))
 
 ;; --------------------------------------------------------------------------
 ;; Per-entry field tables. Internal accessors return a plain :string and use

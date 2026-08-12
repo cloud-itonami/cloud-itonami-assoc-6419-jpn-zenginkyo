@@ -1,7 +1,7 @@
 (ns association-facts-test
   (:require [clojure.java.io :as io] [clojure.java.shell :as shell]
             [clojure.test :refer [deftest is testing]]
-            [kotoba.compiler.core :as compiler] [kotoba.compiler.ir :as ir]))
+            [kotoba.compiler.core :as compiler] [kotoba.kir :as ir]))
 (def source (slurp "src/association_facts.kotoba"))
 (defn call [kir f & xs] (ir/execute kir f (vec xs)))
 (defn present [x] (when (second x) (nth x 2)))

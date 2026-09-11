@@ -16,5 +16,5 @@ jobs:
         run: |
           if find src -type f \( -name '*.clj' -o -name '*.cljc' -o -name '*.cljs' \) -print -quit | grep -q .; then exit 1; fi
           test "$(find src -type f -name '*.kotoba' | wc -l)" -eq 1
-      - run: clojure -M:test
-      - run: clojure -M:lint
+      - run: kbb -M:test
+      - run: kbb -M:lint
